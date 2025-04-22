@@ -18,6 +18,8 @@
         gtag('config', 'G-4985X51W1J');
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1511837633001567" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r167/three.min.js"></script>
+    <script src="visualBackground.js"></script>
     <style>
         * {
             margin: 0;
@@ -77,7 +79,7 @@
 
         .hero-section {
             height: 100vh;
-            background: linear-gradient(135deg, #2C3E50 0%, #4A90E2 100%);
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.7), rgba(74, 144, 226, 0.7));
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -614,7 +616,6 @@
             }
         }
 
-        /* New styles for activities-section inside hero-section */
         .hero-section .activities-section {
             max-width: 600px;
             margin: 20px auto;
@@ -659,6 +660,8 @@
     </style>
 </head>
 <body>
+    <div id="visualContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+
     <nav id="nav">
         <div class="logo">MoodTask</div>
         <div class="nav-links">
@@ -749,6 +752,11 @@
             <div class="footer-column">
                 <h4>Connect</h4>
                 <a href="#" class="footer-link" id="share"><i class="fab fa-twitter"></i> Share on Twitter</a>
+                <div style="padding-top: 10px;">
+                    <a href="https://www.buymeacoffee.com/moodtask" target="_blank">
+                        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;">
+                    </a>
+                </div>
             </div>
         </div>
         <p class="copyright">© 2025 MoodTask. All rights reserved.</p>
@@ -1207,10 +1215,8 @@
             toolsContainer.style.display = 'grid';
             moodText.value = '';
 
-            // Debugging log to confirm execution
             console.log('submitMood executed successfully', { mood: matchedMood, user_input: moodInput });
 
-            // Safely call gtag if defined
             if (typeof gtag === 'function') {
                 gtag('event', 'mood_submitted', { mood: matchedMood, user_input: moodInput });
             }
@@ -1227,10 +1233,8 @@
             const popup = document.getElementById(`${tool}-popup`);
             popup.style.display = 'flex';
 
-            // Reset the flag for breathing exercises
             isDiaphragmaticBreathing = false;
 
-            // Check if the breathing popup is being opened from the "Diaphragmatic Breathing" activity
             const callerActivity = event && event.target.closest('li')?.querySelector('.activity-title')?.textContent;
             if (tool === 'breathing' && callerActivity === 'Diaphragmatic Breathing') {
                 isDiaphragmaticBreathing = true;
@@ -1245,7 +1249,6 @@
             if (tool === 'color') startColorFocus();
             if (tool === 'worry') shredWorry();
 
-            // Safely call gtag if defined
             if (typeof gtag === 'function') {
                 gtag('event', 'tool_opened', { tool: tool });
             }
@@ -1279,11 +1282,10 @@
                 { name: 'exhale', duration: 6, text: 'Exhale', instruction: 'Exhale slowly...' }
             ];
 
-            // Add diaphragmatic breathing guidance if triggered from the "Diaphragmatic Breathing" activity
             if (isDiaphragmaticBreathing) {
                 instruction.innerHTML = 'Place one hand on your chest and the other on your belly. As you inhale, focus on expanding your belly while keeping your chest still. Let’s begin...';
                 setTimeout(() => {
-                    instruction.innerHTML = ''; // Clear initial guidance after a few seconds to show phase instructions
+                    instruction.innerHTML = '';
                 }, 5000);
             }
 
@@ -1300,7 +1302,6 @@
                 circle.className = 'circle ' + phase;
                 stepText.textContent = phaseData.text;
 
-                // Update instructions based on phase, with diaphragmatic focus if applicable
                 if (isDiaphragmaticBreathing) {
                     if (phase === 'inhale') {
                         instruction.textContent = 'Inhale deeply through your nose, expanding your belly...';
@@ -1339,11 +1340,11 @@
             const specificErrorMessage = document.getElementById('soundscape-specific-error');
 
             const sounds = {
-                lightrain: 'Light Rain.mp3',
-                chinese: 'Chinese music.mp3',
-                forest: 'Spring Day Forest.mp3',
-                waves: 'Waves Crashing on Rocky Beach.mp3',
-                temple: 'In the Temple Garden - Aaron Kenny.mp3'
+                lightrain: 'audio/Light Rain.mp3',
+                chinese: 'audio/Chinese music.mp3',
+                forest: 'audio/Spring Day Forest.mp3',
+                waves: 'audio/Waves Crashing on Rocky Beach.mp3',
+                temple: 'audio/In the Temple Garden - Aaron Kenny.mp3'
             };
 
             const soundNames = {
@@ -1355,13 +1356,20 @@
             };
 
             const soundKeys = Object.keys(sounds);
-            let availableSounds = [...soundKeys]; // Track available sounds
+            let availableSounds = [...soundKeys];
             affirmation.style.display = 'none';
             errorMessage.style.display = 'none';
             specificErrorMessage.style.display = 'none';
-            playBtn.disabled = true; // Disable play button until a sound is loaded
+            playBtn.disabled = true;
 
-            // Update the dropdown to only show available sounds
+            let meditationVisual = null;
+            function initializeVisual() {
+                if (!meditationVisual && audio) {
+                    meditationVisual = new MeditationVisual('visualContainer', audio);
+                    meditationVisual.updateTheme(select.value);
+                }
+            }
+
             function updateSoundSelect() {
                 select.innerHTML = availableSounds.map(key => `<option value="${key}">${soundNames[key]}</option>`).join('');
                 if (availableSounds.length === 0) {
@@ -1374,8 +1382,7 @@
                 }
             }
 
-            // Test if an audio file can be loaded
-            function canLoadAudio(audioUrl) {
+            async function canLoadAudio(audioUrl) {
                 return new Promise((resolve) => {
                     const testAudio = new Audio(audioUrl);
                     testAudio.oncanplaythrough = () => resolve(true);
@@ -1384,7 +1391,6 @@
                 });
             }
 
-            // Load an audio file
             async function loadAudio(soundKey) {
                 if (audio) {
                     audio.pause();
@@ -1393,7 +1399,6 @@
                 const audioUrl = sounds[soundKey];
                 console.log(`Attempting to load audio: ${audioUrl}`);
 
-                // Check if the file can be loaded
                 const canLoad = await canLoadAudio(audioUrl);
                 if (!canLoad) {
                     console.error(`Cannot load audio file: ${audioUrl}`);
@@ -1415,8 +1420,6 @@
 
                 audio.onerror = (err) => {
                     console.error(`Error loading audio file ${audioUrl}:`, err);
-                    console.log(`Audio error code: ${audio.error ? audio.error.code : 'Unknown'}`);
-                    console.log(`Audio error message: ${audio.error ? audio.error.message : 'Unknown error'}`);
                     specificErrorMessage.textContent = `Failed to load ${soundNames[soundKey]}. Please try another sound.`;
                     specificErrorMessage.style.display = 'block';
                     availableSounds = availableSounds.filter(key => key !== soundKey);
@@ -1438,6 +1441,8 @@
                         specificErrorMessage.style.display = 'block';
                     });
                     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    initializeVisual();
+                    if (meditationVisual) meditationVisual.updateTheme(select.value);
                 };
 
                 audio.onloadstart = () => {
@@ -1447,7 +1452,6 @@
                 return true;
             }
 
-            // Initialize by loading the first available sound
             loadAudio(select.value);
 
             playBtn.onclick = () => {
@@ -1459,6 +1463,8 @@
                         specificErrorMessage.style.display = 'block';
                     });
                     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    initializeVisual();
+                    if (meditationVisual) meditationVisual.updateTheme(select.value);
                 } else {
                     audio.pause();
                     playBtn.innerHTML = '<i class="fas fa-play"></i>';
@@ -1515,7 +1521,6 @@
         // Stretch
         function startStretch() {
             const prompt = document.getElementById('stretch-prompt');
-            
             const stretches = [
                 '<strong>Neck Stretch:</strong> Gently tilt your head towards your right shoulder to stretch the left side of your neck. Hold for 15 seconds, then switch to the left side for 15 seconds.',
                 '<strong>Shoulder Roll:</strong> Roll your shoulders forward in a circular motion for 20 seconds, then roll them backward for 20 seconds.',
@@ -1624,7 +1629,7 @@
                     timerText.style.display = 'none';
                     progressBar.style.display = 'none';
                     prompt.style.display = 'none';
-                    document.querySelector('#舞-popup .affirmation').style.display = 'block';
+                    document.querySelector('#dance-popup .affirmation').style.display = 'block';
                 }
             }, 1000);
         }
