@@ -598,6 +598,22 @@
             background: #2C3E50;
         }
 
+        .gratitude-link, .breathing-link, .soundscape-link, .punching-link, .stretch-link, .doodle-link, .dance-link, .color-link, .worry-link {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 8px 15px;
+            background: #4A90E2;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+
+        .gratitude-link:hover, .breathing-link:hover, .soundscape-link:hover, .punching-link:hover, .stretch-link:hover, .doodle-link:hover, .dance-link:hover, .color-link:hover, .worry-link:hover {
+            background: #2C3E50;
+        }
+
         .disclaimer {
             text-align: center;
             font-size: 0.8em;
@@ -793,6 +809,7 @@
                 </div>
             </div>
         </div>
+        <p class="disclaimer"><em>Affiliate Disclosure: Some links on this site are affiliate links. We may earn a commission on purchases at no extra cost to you.</em></p>
         <p class="copyright">© 2025 MoodTask. All rights reserved.</p>
     </footer>
 
@@ -800,6 +817,8 @@
         <div class="popup-content">
             <h4>Stretch</h4>
             <p id="stretch-prompt">Follow these gentle stretches to relax your body:</p>
+            <a href="https://amzn.to/3GzDmfJ" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link stretch-link" onclick="trackAffiliateClick('yoga_mat')">Yoga Mat for Stretching</a>
+            <a href="https://amzn.to/4jnjTh6" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link stretch-link" onclick="trackAffiliateClick('massage_gun')">Hypervolt Massage Gun</a>
             <p class="affirmation" style="display: none;">Your body appreciates this care.</p>
             <button class="close-button" onclick="closePopup('stretch')"><i class="fas fa-times"></i></button>
         </div>
@@ -812,6 +831,7 @@
             <p id="breathing-instruction">Breathe in deeply...</p>
             <div class="progress-container"><div id="breathing-progress" class="progress-bar"></div></div>
             <p id="breathing-timer">Time remaining: 60s</p>
+            <a href="https://amzn.to/3GgvP5F" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link breathing-link" onclick="trackAffiliateClick('breathing_necklace')">Mindfulness Breathing Necklace</a>
             <p class="affirmation">Well done completing the breathing exercise.</p>
             <button class="close-button" onclick="closePopup('breathing')"><i class="fas fa-times"></i></button>
         </div>
@@ -829,6 +849,7 @@
             </select>
             <button id="play-btn"><i class="fas fa-play"></i></button>
             <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+            <a href="https://amzn.to/4jpn5sz" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link soundscape-link" onclick="trackAffiliateClick('headphones')">Beats Studio Pro Headphones</a>
             <p id="soundscape-error">No sounds are available at this time.</p>
             <p id="soundscape-specific-error"></p>
             <p class="affirmation">Hope you enjoyed the soundscape!</p>
@@ -842,6 +863,7 @@
             <div id="punching-bag">0</div>
             <div class="progress-container"><div id="punching-progress" class="progress-bar"></div></div>
             <p id="punching-timer">Time remaining: 30s</p>
+            <a href="https://amzn.to/4jH8hVE" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link punching-link" onclick="trackAffiliateClick('punching_bag')">Desktop Punching Bag</a>
             <p class="affirmation">Great job letting out that energy!</p>
             <button class="close-button" onclick="closePopup('punching')"><i class="fas fa-times"></i></button>
         </div>
@@ -857,6 +879,7 @@
                 <button onclick="clearCanvas()">Clear</button>
                 <button onclick="saveDoodle()">Save</button>
             </div>
+            <a href="https://amzn.to/4iMlvzX" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link doodle-link" onclick="trackAffiliateClick('drawing_pad')">Charcoal Pencils & Drawing Pad</a>
             <div class="progress-container"><div id="doodle-progress" class="progress-bar"></div></div>
             <p id="doodle-timer">Time remaining: 90s</p>
             <p class="affirmation">Nice doodle! Creativity helps lift your mood.</p>
@@ -870,6 +893,7 @@
             <p id="dance-prompt">Do a little twirl!</p>
             <div class="progress-container"><div id="dance-progress" class="progress-bar"></div></div>
             <p id="dance-timer">Time remaining: 30s</p>
+            <a href="https://amzn.to/4cI5QAd" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link dance-link" onclick="trackAffiliateClick('bluetooth_speaker')">Portable Bluetooth Speaker</a>
             <p class="affirmation">Great moves! Dancing uplifts your spirit.</p>
             <button class="close-button" onclick="closePopup('dance')"><i class="fas fa-times"></i></button>
         </div>
@@ -882,6 +906,7 @@
             <p id="color-prompt">Focus on this color...</p>
             <div class="progress-container"><div id="color-progress" class="progress-bar"></div></div>
             <p id="color-timer">Time remaining: 60s</p>
+            <a href="https://amzn.to/3GjTyBI" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link color-link" onclick="trackAffiliateClick('aromatherapy_diffuser')">Aromatherapy Diffuser</a>
             <p class="affirmation">Focusing on colors can be so calming!</p>
             <button class="close-button" onclick="closePopup('color')"><i class="fas fa-times"></i></button>
         </div>
@@ -892,6 +917,7 @@
             <h4>Worry Shredder</h4>
             <textarea id="worry-text" placeholder="Write down your worry..."></textarea>
             <button onclick="shredWorry()">Shred It</button>
+            <a href="https://amzn.to/44673in" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link worry-link" onclick="trackAffiliateClick('heated_lap_pad')">Bearaby Heated Lap Pad</a>
             <div id="paper-strips-container"></div>
             <p class="affirmation">Your worry has been shredded. Let it go!</p>
             <button class="close-button" onclick="closePopup('worry')"><i class="fas fa-times"></i></button>
@@ -903,6 +929,7 @@
             <h4>Gratitude Note</h4>
             <textarea id="gratitude-text" placeholder="What are you grateful for today?"></textarea>
             <button onclick="saveGratitude()">Save Note</button>
+            <a href="https://amzn.to/4jmN8AH" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link gratitude-link" onclick="trackAffiliateClick('gratitude_journal')">Gratitude Journal</a>
             <div id="gratitude-notes"></div>
             <p class="affirmation">Gratitude saved! Reflecting on the positive lifts your mood.</p>
             <button class="close-button" onclick="closePopup('gratitude')"><i class="fas fa-times"></i></button>
@@ -1773,6 +1800,13 @@
             notesContainer.innerHTML = notes.length ? 
                 notes.map(note => `<div class="gratitude-note"><span>${note.date}:</span> ${note.text}</div>`).join('') : 
                 '<p>No gratitude notes yet.</p>';
+        }
+
+        // Track affiliate link clicks for analytics
+        function trackAffiliateClick(product) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'affiliate_click', { product: product });
+            }
         }
     </script>
 </body>
